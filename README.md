@@ -1,3 +1,19 @@
+# Ti4 Weighted Faction Drafter
+This is a Twilight Imperium 4th edition faction drafter, that drafts factions weighted based on player experience. So less experienced players will be slightly biased to being drafted slightly more powerful factions, but also slightly less complex factions.
+
+You can find all the stats in `src/Constants/faction-data.ts`.
+
+Feel free to contribute any changes.
+
+TODO List:
+1. Change weights slightly on which expansions in use. Currently, faction ranking is based off of PoK + all codex.
+2. Pretty changes. Just make it look better overall.
+3. Convenience. Things like a "copy to clipboard button". Stop page shifting etc...
+4. Pass output to URL so you can copy the URL to share the output / settings.
+5. Fudge. Allow pre-drafting factions. Such as "Player 1 will guarantee this faction" or "Player 2 is banned from this faction" etc...
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
