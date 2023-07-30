@@ -1,7 +1,9 @@
 import React from "react";
-import { ObservableSet, makeObservable, observable } from "mobx";
-import { EXPANSION_KEYS } from "../Constants/faction-data";
+import { ObservableMap, ObservableSet, action, computed, makeObservable, observable } from "mobx";
+import { EXPANSION_KEYS, FACTIONS_FILTERED, FACTION_ARR, FACTION_DETAILS, Faction } from "../Constants/faction-data";
 import { ExperienceLevels, User } from "../Constants/user";
+import { Draft } from "../Util/draft";
+import { isThisTypeNode } from "typescript";
 
 let userCount = 0;
 
@@ -22,12 +24,24 @@ export class ViewModel {
     @observable
     public Users: User[] = [];
 
+    @observable
+    public Drafted: Map<User, Faction[]> = new ObservableMap<User, Faction[]>();
+
+    @computed
+    public get MaxDraftCount(): number {
+        const factions = FACTIONS_FILTERED(this.Expansions, this.Users);
+        return this.Users.length ? Math.floor(factions.length / this.Users.length) : FACTION_ARR.length;
+    }
+
+    @observable
+    public DraftCount: number = 3;
+
 
     constructor() {
         makeObservable(this);
     }
 
-
+    @action
     ToggleExpansion(exp: EXPANSION_KEYS, state?: boolean) {
         if(state === true || !this.Expansions.has(exp))
             this.Expansions.add(exp);
@@ -35,6 +49,7 @@ export class ViewModel {
             this.Expansions.delete(exp);
     }
 
+    @action
     AddUser() {
         const id = ++userCount;
         this.Users.push({
@@ -42,6 +57,22 @@ export class ViewModel {
             experience: ExperienceLevels.intermediate,
             name: `Player ${id}`,
         });
+    }
+
+    @action
+    RemoveUser(id: number) {
+        const index = this.Users.findIndex(u => u.id==id);
+        if(index > -1)
+            this.Users.splice(index, 1);
+    }
+
+    @action
+    Draft() {
+        const results = Draft(this.Users, Math.min(this.DraftCount, this.MaxDraftCount), this.Expansions);
+        this.Drafted.clear();
+        for(const r of results) {
+            this.Drafted.set(r.user, r.factions);
+        }
     }
 }
 
