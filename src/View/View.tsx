@@ -4,7 +4,7 @@ import { useViewModel } from './ViewModel';
 import { UserRow } from './UserRow';
 import { action } from 'mobx';
 import './View.css';
-import { EXPANSIONS, EXPANSION_KEYS } from '../Constants/faction-data';
+import { EXPANSIONS, EXPANSION_KEYS, FACTIONS_FILTERED } from '../Constants/faction-data';
 
 
 const Panel : React.FC<HTMLAttributes<HTMLDivElement>> = (props) => <div {...props} className='panel' />
@@ -28,22 +28,6 @@ export const BaseView = observer(() => {
                 <button onClick={() => vm.AddUser()} style={{marginLeft: '1rem'}}>
                     Add
                 </button>
-                <button onClick={() => vm.Draft()} style={{marginLeft: '1rem', backgroundColor: 'lightblue'}}>
-                    Draft
-                </button>
-                <span>
-                    <span>
-                        Draft Count (max {vm.MaxDraftCount}):
-                    </span>
-                    <input
-                        type="number"
-                        value={vm.DraftCount}
-                        onChange={action((e) => {
-                            const val = Number(e.target.value);
-                            vm.DraftCount = Math.max(Math.min(val, vm.MaxDraftCount), 0);
-                        })}
-                    />
-                </span>
             </div>
             <hr />
             <ul>
@@ -56,13 +40,13 @@ export const BaseView = observer(() => {
 
         <Panel>
             <h2>
-                Options
+                Config
             </h2>
             <div style={{
                 backgroundColor: '#ababab',
                 padding: 8,
                 borderRadius: 8,
-
+                marginBottom: 8,
             }}>
                 <h3>
                     Expansions:
@@ -85,14 +69,46 @@ export const BaseView = observer(() => {
                         </div>
                     })
                 }
+                <span style={{marginTop: 8, display: 'inline-block'}}>
+                    Total faction count: {FACTIONS_FILTERED(vm.Expansions, vm.Users).length}
+                </span>
+            </div>
+            <div style={{
+                backgroundColor: '#ababab',
+                padding: 8,
+                borderRadius: 8,
+                marginBottom: 8,
+            }}>
+                <span>
+                    <span style={{marginRight: 4}}>
+                        Draft per player (max {vm.MaxDraftCount}):
+                    </span>
+                    <input
+                        type="number"
+                        value={vm.DraftCount}
+                        onChange={action((e) => {
+                            const val = Number(e.target.value);
+                            vm.DraftCount = Math.max(Math.min(val, vm.MaxDraftCount), 0);
+                        })}
+                    />
+                </span>
+            </div>
+            <div style={{
+                backgroundColor: '#ababab',
+                padding: 8,
+                borderRadius: 8,
+            }}>
+                <button onClick={() => vm.Draft()} style={{fontSize: '2rem', backgroundColor: 'lightblue', width: "100%"}}>
+                    DRAFT
+                </button>
             </div>
         </Panel>
 
         <Panel>
             <h2>
-                Raw
+                Raw Output
             </h2>
-            <pre style={{backgroundColor: '#ababab', padding: 16}}>
+            <pre style={{backgroundColor: '#ababab', padding: 16, minWidth: 400}}>
                 {
                     Array.from(vm.Drafted.entries()).map(([usr, facs], i) => {
                         return <span key={i}>
