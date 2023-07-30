@@ -12,6 +12,21 @@ const Panel : React.FC<HTMLAttributes<HTMLDivElement>> = (props) => <div {...pro
 export const BaseView = observer(() => {
     const vm = useViewModel();
     return <div className='panels-container'>
+        <div style={{
+            width: '100%',
+            backgroundColor: '#565656',
+            boxSizing: 'border-box',
+            padding: 8,
+            margin: -8,
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between'
+        }}>
+            <h1>
+                Twilight Imperium 4th Edition - Weighted Faction Drafter
+            </h1>
+        </div>
         <Panel>
             <div style={{
                 display: 'flex',
@@ -126,7 +141,7 @@ export const BaseView = observer(() => {
             <h2>
                 Raw Output
             </h2>
-            <pre style={{backgroundColor: '#ababab', padding: 16, minWidth: 400}}>
+            <pre style={{backgroundColor: '#ababab', padding: 16, minWidth: 360}}>
                 {
                     Array.from(vm.Drafted.entries()).map(([usr, facs], i) => {
                         return <span key={i}>
@@ -139,6 +154,34 @@ export const BaseView = observer(() => {
                 }
             </pre>
         </Panel>
+
+        <div style={{
+            width: '100%',
+            backgroundColor: '#565656',
+            boxSizing: 'border-box',
+            padding: 8,
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            alignSelf: 'flex-end',
+        }}>
+            <span>
+                Ti4 weighted drafter by ekul. Still (clearly) a work in progress.
+            </span>
+            <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-end',
+            }}>
+                <a href='https://github.com/ekul6547/ti4-weighted-drafter' target="_blank">
+                    Github link
+                </a>
+                <span>
+                    For issue reporting, or feel free to contribute
+                </span>
+            </div>
+        </div>
     </div>
 
 })

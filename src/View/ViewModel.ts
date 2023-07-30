@@ -75,7 +75,11 @@ export class ViewModel {
 
     @action
     Draft() {
-        const results = Draft(this.Users, Math.min(this.DraftCount, this.MaxDraftCount), this.Expansions);
+        const results = Draft(this.Users, Math.min(this.DraftCount, this.MaxDraftCount), this.Expansions).sort((a,b) => {
+            const aIndex = this.Users.findIndex(u => u.id === a.user.id);
+            const bIndex = this.Users.findIndex(u => u.id === b.user.id);
+            return aIndex - bIndex;
+        });
         this.Drafted.clear();
         for(const r of results) {
             this.Drafted.set(r.user, r.factions);
