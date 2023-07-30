@@ -30,7 +30,7 @@ export class ViewModel {
     @computed
     public get MaxDraftCount(): number {
         const factions = FACTIONS_FILTERED(this.Expansions, this.Users);
-        return this.Users.length ? Math.floor(factions.length / this.Users.length) : FACTION_ARR.length;
+        return this.Users.length ? Math.floor(factions.length / this.Users.length) : factions.length;
     }
 
     @observable

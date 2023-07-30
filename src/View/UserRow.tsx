@@ -54,6 +54,7 @@ export const UserRow: React.FC<UserRowProps> = observer((props) => {
                     onChange={(e) => setName(e.target.value)}
                     style={{
                         flex: 1,
+                        minWidth: 0,
                     }}
                 />
                 <span>

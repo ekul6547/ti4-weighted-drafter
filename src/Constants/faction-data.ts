@@ -555,7 +555,7 @@ export const FACTION_ARR = Object.keys(FACTION_DETAILS) as FACTIONS[];
 
 
 export function FACTIONS_FILTERED(expansions: Set<EXPANSION_KEYS>, users: User[]) {
-    const all_first_time = users.every(u => u.experience === ExperienceLevels.firstTime);
+    const all_first_time = users.length && users.every(u => u.experience === ExperienceLevels.firstTime);
     return FACTION_ARR.filter(f => {
         const fac = FACTION_DETAILS[f];
         if(fac.expansion) return expansions.has(fac.expansion);
