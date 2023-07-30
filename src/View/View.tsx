@@ -97,6 +97,24 @@ export const BaseView = observer(() => {
                 backgroundColor: '#ababab',
                 padding: 8,
                 borderRadius: 8,
+                marginBottom: 8,
+            }}>
+                <div style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                }}>
+                    <span style={{marginRight: 8}}>Assign Speaker</span>
+                    <input type="checkbox" checked={vm.AssignSpeaker} onChange={action((e) => {
+                        const checked = e.target.checked;
+                        vm.AssignSpeaker = checked;
+                    })} />
+                </div>
+            </div>
+            <div style={{
+                backgroundColor: '#ababab',
+                padding: 8,
+                borderRadius: 8,
             }}>
                 <button onClick={() => vm.Draft()} style={{fontSize: '2rem', backgroundColor: 'lightblue', width: "100%"}}>
                     DRAFT
@@ -113,7 +131,7 @@ export const BaseView = observer(() => {
                     Array.from(vm.Drafted.entries()).map(([usr, facs], i) => {
                         return <span key={i}>
                             {i != 0 && "\n\n"}
-                            {usr.name}:
+                            {usr.name}{vm.Speaker === usr.id ? ` (SPEAKER)` : ''}:
                             {"\n"}
                             {facs.map(f => `${f.name}\n`)}
                         </span>

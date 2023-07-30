@@ -27,6 +27,8 @@ export const UserRow: React.FC<UserRowProps> = observer((props) => {
         user.experience = val;
     });
 
+    const isSpeaker = vm.Speaker === user.id;
+
     return <li style={{
         padding: '0.5rem',
     }}>
@@ -37,6 +39,8 @@ export const UserRow: React.FC<UserRowProps> = observer((props) => {
             backgroundColor: '#ababab',
             padding: '0.5rem',
             borderRadius: 8,
+            border: isSpeaker ? 'solid 1px black' : undefined,
+            boxSizing: 'border-box'
         }}>
             <div style={{
                 display: 'flex',
@@ -88,6 +92,17 @@ export const UserRow: React.FC<UserRowProps> = observer((props) => {
                             })
                         }
                     </ol>
+                </div>
+            }
+            {
+                isSpeaker && <div style={{
+                    fontWeight: 'bold',
+                    padding: 8,
+                    width: '100%',
+                    textAlign: 'center',
+                    boxSizing: 'border-box'
+                }}>
+                    SPEAKER!
                 </div>
             }
         </div>

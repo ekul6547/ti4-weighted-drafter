@@ -37,6 +37,13 @@ export class ViewModel {
     public DraftCount: number = 3;
 
 
+    @observable
+    public AssignSpeaker: boolean = true;
+
+    @observable
+    public Speaker: number | null = null;
+
+
     constructor() {
         makeObservable(this);
     }
@@ -73,6 +80,24 @@ export class ViewModel {
         for(const r of results) {
             this.Drafted.set(r.user, r.factions);
         }
+        this.randomiseSpeaker();
+    }
+
+    private randomiseSpeaker() {
+        if(!this.AssignSpeaker || this.Users.length === 0) {
+            this.Speaker = null;
+            return;
+        }
+
+        const users = this.Users;
+
+        // weight inversely, so less experienced players have a higher chance at becoming speaker
+        const usersWeighted = users.map(u => {
+            const weight = Math.floor(Math.max(ExperienceLevels.veteran - u.experience + 1, 1) / 2) + 1;
+            return new Array(weight).fill(u.id);
+        }).flat().sort(() => Math.random() > 0.5 ? 1 : -1);
+
+        this.Speaker = usersWeighted[Math.floor(Math.random() * usersWeighted.length)];
     }
 }
 
